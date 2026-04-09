@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReadBot AI - Tu asistente inteligente</title>
+    <title>ReadBot AI - Asistente Inteligente</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
@@ -12,207 +14,118 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(-45deg, #0f0f23, #1a1a3e, #2a1a5e, #16213e);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
             height: 100vh;
-            display: flex;
-            flex-direction: column;
             overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Partículas flotantes */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 160px 30px, #ddd, transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: float 20s linear infinite;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-20px) rotate(360deg); }
         }
 
         .header {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(25px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 100;
             padding: 20px 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
-            color: white;
-            font-size: 24px;
+            gap: 15px;
+            color: #fff;
+            font-size: 28px;
             font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            border-radius: 12px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 24px;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
         .chat-container {
-            flex: 1;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            width: 100%;
-            padding: 20px;
+            padding: 120px 40px 80px;
         }
 
         .messages {
             flex: 1;
             overflow-y: auto;
-            padding: 20px 0;
+            padding-right: 20px;
             scroll-behavior: smooth;
         }
 
-        .message {
-            display: flex;
-            margin-bottom: 24px;
-            animation: fadeIn 0.3s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .message.user {
-            justify-content: flex-end;
-        }
-
-        .message-content {
-            max-width: 70%;
-            padding: 16px 20px;
-            border-radius: 20px;
-            position: relative;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .message.user .message-content {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            border-bottom-right-radius: 8px;
-        }
-
-        .message.bot .message-content {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            color: #333;
-            border-bottom-left-radius: 8px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .message.bot .avatar {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            margin-right: 12px;
-            flex-shrink: 0;
-        }
-
-        .typing {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 16px 20px;
-        }
-
-        .typing-dots {
-            display: flex;
-            gap: 4px;
-        }
-
-        .typing-dots span {
-            width: 8px;
-            height: 8px;
-            background: #667eea;
-            border-radius: 50%;
-            animation: typing 1.4s infinite ease-in-out;
-        }
-
-        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
-        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
-
-        @keyframes typing {
-            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
-            40% { transform: scale(1); opacity: 1; }
-        }
-
-        .input-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            padding: 20px 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .input-wrapper {
-            display: flex;
-            gap: 12px;
-            align-items: flex-end;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        #messageInput {
-            flex: 1;
-            padding: 16px 24px;
-            border: none;
-            border-radius: 25px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            font-size: 16px;
-            outline: none;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            resize: none;
-            min-height: 20px;
-            max-height: 120px;
-            line-height: 1.4;
-        }
-
-        #messageInput:focus {
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-        }
-
-        .send-btn {
-            width: 52px;
-            height: 52px;
-            border: none;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .send-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
-        }
-
-        .send-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Scrollbar personalizada */
         .messages::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
         }
 
         .messages::-webkit-scrollbar-track {
@@ -220,73 +133,267 @@
         }
 
         .messages::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 3px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+            border-radius: 4px;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header {
-                padding: 16px 20px;
-            }
-            
-            .input-container {
-                padding: 16px 20px;
-            }
-            
-            .message-content {
-                max-width: 85%;
+        .message {
+            display: flex;
+            margin-bottom: 28px;
+            opacity: 0;
+            animation: slideIn 0.4s ease forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
-        .welcome-message {
+        .message.user { justify-content: flex-end; }
+        .message.user .message-wrapper { animation-delay: 0.1s; }
+        .message.bot { animation-delay: 0.2s; }
+
+        .message-wrapper {
+            display: flex;
+            max-width: 75%;
+            transform: translateY(20px);
+        }
+
+        .message.bot .message-wrapper {
+            flex-direction: row;
+        }
+
+        .message.user .message-wrapper {
+            flex-direction: row-reverse;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
+            flex-shrink: 0;
+            margin: 0 12px;
+        }
+
+        .bot-avatar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .user-avatar {
+            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .message-content {
+            padding: 20px 24px;
+            border-radius: 24px;
+            position: relative;
+            backdrop-filter: blur(20px);
+            line-height: 1.6;
+            font-size: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .message.bot .message-content {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e8e8ff;
+            border-top-left-radius: 8px;
+        }
+
+        .message.user .message-content {
+            background: rgba(255, 255, 255, 0.95);
+            color: #1a1a2e;
+            border-bottom-right-radius: 8px;
+            font-weight: 500;
+        }
+
+        .input-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 900px;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(30px);
+            border-radius: 32px;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 16px;
+            align-items: flex-end;
+        }
+
+        #messageInput {
+            flex: 1;
+            padding: 18px 28px;
+            border: none;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            color: #fff;
+            font-size: 16px;
+            font-family: inherit;
+            outline: none;
+            resize: none;
+            min-height: 24px;
+            max-height: 140px;
+            line-height: 1.5;
+            transition: all 0.3s ease;
+        }
+
+        #messageInput:focus {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+        }
+
+        #messageInput::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .send-btn {
+            width: 56px;
+            height: 56px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .send-btn:hover:not(:disabled) {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        .send-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .typing {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 6px;
+            padding: 20px 24px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+        }
+
+        .typing-dots span {
+            width: 10px;
+            height: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            animation: typingBounce 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0s; }
+
+        @keyframes typingBounce {
+            0%, 80%, 100% { 
+                transform: scale(0); 
+                opacity: 0.5; 
+            }
+            40% { 
+                transform: scale(1); 
+                opacity: 1; 
+            }
+        }
+
+        .welcome {
             text-align: center;
             color: rgba(255, 255, 255, 0.8);
-            font-size: 18px;
-            margin: 40px 0;
-            animation: pulse 2s infinite;
+            font-size: 20px;
+            font-weight: 400;
+            margin: 100px 0;
+            line-height: 1.6;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 1; }
+        .welcome strong {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .header { padding: 16px 24px; }
+            .chat-container { padding: 100px 24px 80px; }
+            .input-container { width: 95%; bottom: 16px; padding: 10px; }
+            .message-wrapper { max-width: 90%; }
         }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="logo">
-            <div class="logo-icon">📖</div>
+            <div class="logo-icon">🤖</div>
             <span>ReadBot AI</span>
         </div>
     </div>
 
     <div class="chat-container">
         <div class="messages" id="messages">
-            <div class="welcome-message">
-                ¡Hola! Soy <strong>ReadBot AI</strong>, tu asistente inteligente. 
-                ¿En qué puedo ayudarte hoy? 🤖✨
-            </div>
-        </div>
-
-        <div class="input-container">
-            <div class="input-wrapper">
-                <textarea 
-                    id="messageInput" 
-                    placeholder="Escribe tu mensaje aquí... (Presiona Enter para enviar)"
-                    rows="1"
-                ></textarea>
-                <button class="send-btn" id="sendBtn">➤</button>
+            <div class="welcome">
+                <div>¡Bienvenido a <strong>ReadBot AI</strong>!</div>
+                <div style="margin-top: 12px; font-size: 16px;">Pregúntame lo que sea. Te responderé con precisión y detalle ✨</div>
             </div>
         </div>
     </div>
 
+    <div class="input-container">
+        <div class="input-wrapper">
+            <textarea 
+                id="messageInput" 
+                placeholder="Escribe cualquier pregunta o consulta..."
+                rows="1"
+            ></textarea>
+            <button class="send-btn" id="sendBtn">➤</button>
+        </div>
+    </div>
+
     <script>
-        class ReadBotAI {
+        class AdvancedReadBot {
             constructor() {
                 this.messagesContainer = document.getElementById('messages');
                 this.messageInput = document.getElementById('messageInput');
                 this.sendBtn = document.getElementById('sendBtn');
+                this.conversationHistory = [];
                 
                 this.init();
             }
@@ -299,17 +406,16 @@
                         this.sendMessage();
                     }
                 });
-
-                this.messageInput.addEventListener('input', this.autoResize);
+                this.messageInput.addEventListener('input', () => this.autoResize());
                 this.autoResize();
             }
 
             autoResize() {
                 this.messageInput.style.height = 'auto';
-                this.messageInput.style.height = Math.min(this.messageInput.scrollHeight, 120) + 'px';
+                this.messageInput.style.height = Math.min(this.messageInput.scrollHeight, 140) + 'px';
             }
 
-            async sendMessage() {
+            sendMessage() {
                 const message = this.messageInput.value.trim();
                 if (!message) return;
 
@@ -317,146 +423,78 @@
                 this.messageInput.value = '';
                 this.autoResize();
                 this.sendBtn.disabled = true;
+                this.conversationHistory.push({ role: 'user', content: message });
 
-                // Mostrar indicador de escritura
                 this.showTyping();
-
-                // Simular respuesta de IA
-                const response = await this.generateResponse(message);
-                this.hideTyping();
-                this.addMessage(response, 'bot');
-                this.sendBtn.disabled = false;
+                
+                setTimeout(() => {
+                    const response = this.generateUniqueResponse(message);
+                    this.hideTyping();
+                    this.addMessage(response, 'bot');
+                    this.conversationHistory.push({ role: 'assistant', content: response });
+                    this.sendBtn.disabled = false;
+                }, 1200 + Math.random() * 800);
             }
 
-            addMessage(text, sender) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `message ${sender}`;
+            generateUniqueResponse(message) {
+                const msg = message.toLowerCase().trim();
+                const words = message.split(' ').filter(w => w.length > 2);
+                const lastWords = this.conversationHistory.slice(-3).map(c => c.content.toLowerCase());
+                
+                // Evitar repeticiones
+                let attempts = 0;
+                let response;
+                
+                do {
+                    response = this.createResponse(msg, words, lastWords);
+                    attempts++;
+                } while (this.hasRepeatedPhrases(response, lastWords) && attempts < 5);
 
-                if (sender === 'bot') {
-                    messageDiv.innerHTML = `
-                        <div class="avatar">🤖</div>
-                        <div class="message-content">${this.formatMessage(text)}</div>
-                    `;
-                } else {
-                    messageDiv.innerHTML = `
-                        <div class="message-content">${this.formatMessage(text)}</div>
-                    `;
+                return response;
+            }
+
+            createResponse(msg, words, lastWords) {
+                // Categorías específicas con respuestas únicas
+                if (/matematic|sum|rest|multiplic|divid|ecuaci|porcent|raiz/i.test(msg)) {
+                    return this.mathResponse(words);
                 }
-
-                this.messagesContainer.appendChild(messageDiv);
-                this.scrollToBottom();
-            }
-
-            showTyping() {
-                const typingDiv = document.createElement('div');
-                typingDiv.className = 'message bot typing';
-                typingDiv.id = 'typing-indicator';
-                typingDiv.innerHTML = `
-                    <div class="avatar">🤖</div>
-                    <div class="message-content">
-                        <div class="typing-dots">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </div>
-                `;
-                this.messagesContainer.appendChild(typingDiv);
-                this.scrollToBottom();
-            }
-
-            hideTyping() {
-                const typing = document.getElementById('typing-indicator');
-                if (typing) {
-                    typing.remove();
+                if (/program|codigo|javascript|html|css|python|java|desarroll|web|app/i.test(msg)) {
+                    return this.codeResponse(words);
                 }
-            }
-
-            async generateResponse(message) {
-                // Simulación de respuestas inteligentes
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        const responses = this.getSmartResponse(message.toLowerCase());
-                        resolve(responses);
-                    }, 1000 + Math.random() * 1500);
-                });
-            }
-
-            getSmartResponse(message) {
-                const greetings = ['hola', 'buenas', 'hey', 'saludos', 'que tal'];
-                const help = ['ayuda', 'help', 'ayudame', 'como funciona'];
-                const time = ['hora', 'que hora', 'tiempo'];
-                const name = ['nombre', 'como te llamas', 'quien eres'];
-                const joke = ['chiste', 'gracioso', 'broma'];
-                const code = ['codigo', 'programar', 'javascript', 'html', 'css'];
-
-                if (greetings.some(g => message.includes(g))) {
-                    return "¡Hola! 👋 Soy ReadBot AI, creado para ayudarte con cualquier pregunta o tarea. ¿En qué puedo asistirte hoy?";
+                if (/histori|fecha|siglo|guerr|año|president|rey/i.test(msg)) {
+                    return this.historyResponse(words);
+                }
+                if (/cienci|fisic|quimic|biologi|astronomi|planet|univers/i.test(msg)) {
+                    return this.scienceResponse(words);
+                }
+                if (/tecnolog|inteligen|machine learning|ia|chatgpt|gpt/i.test(msg)) {
+                    return this.techResponse(words);
+                }
+                if (/recet|comid|cocin|ingredien/i.test(msg)) {
+                    return this.recipeResponse(words);
+                }
+                if (/viaj|destin|ciudad|pais|turism/i.test(msg)) {
+                    return this.travelResponse(words);
+                }
+                if (/deport|futbol|tenis|baloncesto|atleti/i.test(msg)) {
+                    return this.sportsResponse(words);
                 }
                 
-                if (help.some(h => message.includes(h))) {
-                    return "¡Claro! Puedo ayudarte con:\n• Responder preguntas\n• Explicar conceptos\n• Generar ideas\n• Ayudar con código\n• Y mucho más... 😊\n¿Qué necesitas?";
-                }
-
-                if (time.some(t => message.includes(t))) {
-                    return `Son las ${new Date().toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'})} ahora mismo. ⏰`;
-                }
-
-                if (name.some(n => message.includes(n))) {
-                    return "Soy <strong>ReadBot AI</strong> 📖✨, tu asistente inteligente diseñado para darte respuestas precisas y útiles en cualquier tema.";
-                }
-
-                if (joke.some(j => message.includes(j))) {
-                    const jokes = [
-                        "¿Por qué los pájaros no usan Facebook? Porque ya tienen Twitter. 🐦😂",
-                        "¿Qué le dice un imán a otro imán? Me gustas de atraer. 🧲😉",
-                        "¡Soy tan rápido que hasta mi sombra necesita Uber! ⚡"
-                    ];
-                    return jokes[Math.floor(Math.random() * jokes.length)];
-                }
-
-                if (code.some(c => message.includes(c))) {
-                    return `¡Perfecto! Te ayudo con código. Aquí tienes un ejemplo de HTML/CSS moderno:\n\n\`\`\`html
-<div class="card">
-    <h3>Título</h3>
-    <p>Contenido increíble</p>
-</div>
-\`\`\`\n\n¿Quieres que te ayude con algo específico? 💻`;
-                }
-
-                // Respuesta genérica inteligente
-                const generic = [
-                    "¡Excelente pregunta! Déjame analizar eso... Tu consulta sobre '" + message.split(' ')[0] + "' es muy interesante. Te respondo con precisión:",
-                    "Interesante perspectiva. Basándome en información actualizada, aquí tienes una respuesta completa:",
-                    "Perfecto, voy a desglosar esto para ti de manera clara y precisa:"
+                // Respuesta general ultra variada
+                const generalResponses = [
+                    `Analizando tu consulta "${words[0] || 'tema'}"... Te explico con detalle:`,
+                    `Interesante pregunta sobre ${words.slice(0,2).join(' ')}. Aquí va la información clave:`,
+                    `Perfecto. Sobre "${message.substring(0,30)}..." puedo decirte que:`,
+                    `Excelente tema. Te doy los puntos más importantes sobre ${words[0]}:`,
+                    `Tu pregunta sobre ${words[0]} es muy pertinente. La respuesta es:`
                 ];
                 
-                const topics = [
-                    "En términos generales, esto se relaciona con conceptos fundamentales que puedo explicarte paso a paso.",
-                    "Este tema es fascinante. Te doy los puntos clave para entenderlo completamente.",
-                    "Excelente elección. Aquí tienes información práctica y actionable."
-                ];
-
-                return `${generic[Math.floor(Math.random() * generic.length)]}\n\n${topics[Math.floor(Math.random() * topics.length)]}\n\n¿Quieres que profundice en algún aspecto específico? 🎯`;
+                const details = this.generateDetails(words[0] || 'general');
+                return `${generalResponses[Math.floor(Math.random() * generalResponses.length)]}\n\n${details}`;
             }
 
-            formatMessage(text) {
-                return text
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                    .replace(/`(.*?)`/g, '<code>$1</code>')
-                    .replace(/\n/g, '<br>');
-            }
-
-            scrollToBottom() {
-                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
-            }
-        }
-
-        // Inicializar cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', () => {
-            new ReadBotAI();
-        });
-    </script>
-</body>
-</html>
+            mathResponse(words) {
+                const mathTemplates = [
+                    `Para ${words.join(' ')}:\n\n1️⃣ **Fórmula**: [explicación específica]\n2️⃣ **Ejemplo**: 15 × 3 = 45\n3️⃣ **Resultado**: [cálculo preciso]\n\n¿Quieres más ejemplos prácticos?`,
+                    `Solución paso a paso para ${words[0]}:\n\n📊 **Paso 1**: Identificar variables\n📊 **Paso 2**: Aplicar fórmula\n📊 **Resultado**: [número]\n\n¡Matemáticas resueltas! 🔢`,
+                    `${words[0].toUpperCase()}: La respuesta
