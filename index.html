@@ -292,6 +292,12 @@
             transform: translateY(0) scale(0.98);
         }
 
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .typing {
             display: flex;
             align-items: center;
@@ -394,20 +400,35 @@
                 this.messageInput = document.getElementById('messageInput');
                 this.sendBtn = document.getElementById('sendBtn');
                 this.conversationHistory = [];
+                this.isTyping = false;
+                this.typingElement = null;
                 
                 this.init();
             }
 
             init() {
-                this.sendBtn.addEventListener('click', () => this.sendMessage());
+                // ✅ BOTÓN ENVIAR FUNCIONA
+                this.sendBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.sendMessage();
+                });
+
+                // ✅ ENTER FUNCIONA (sin Shift)
                 this.messageInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault();
                         this.sendMessage();
                     }
                 });
-                this.messageInput.addEventListener('input', () => this.autoResize());
+
+                // Auto-resize textarea
+                this.messageInput.addEventListener('input', () => {
+                    this.autoResize();
+                    this.updateSendButton();
+                });
+
                 this.autoResize();
+                this.updateSendButton();
             }
 
             autoResize() {
@@ -415,86 +436,107 @@
                 this.messageInput.style.height = Math.min(this.messageInput.scrollHeight, 140) + 'px';
             }
 
+            updateSendButton() {
+                const hasText = this.messageInput.value.trim().length > 0;
+                this.sendBtn.disabled = !hasText;
+            }
+
             sendMessage() {
                 const message = this.messageInput.value.trim();
-                if (!message) return;
+                if (!message || this.isTyping) return;
 
+                // AÑADIR MENSAJE DEL USUARIO
                 this.addMessage(message, 'user');
                 this.messageInput.value = '';
                 this.autoResize();
-                this.sendBtn.disabled = true;
-                this.conversationHistory.push({ role: 'user', content: message });
-
-                this.showTyping();
                 
+                this.conversationHistory.push({ role: 'user', content: message });
+                this.isTyping = true;
+                this.updateSendButton();
+
+                // MOSTRAR TYPING
+                this.showTyping();
+
+                // SIMULAR RESPUESTA
                 setTimeout(() => {
-                    const response = this.generateUniqueResponse(message);
                     this.hideTyping();
+                    const response = this.generateUniqueResponse(message);
                     this.addMessage(response, 'bot');
                     this.conversationHistory.push({ role: 'assistant', content: response });
-                    this.sendBtn.disabled = false;
-                }, 1200 + Math.random() * 800);
+                    this.isTyping = false;
+                    this.updateSendButton();
+                    this.scrollToBottom();
+                }, 800 + Math.random() * 1200);
+            }
+
+            addMessage(content, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+                
+                messageDiv.innerHTML = `
+                    <div class="message-wrapper">
+                        <div class="avatar ${sender === 'user' ? 'user-avatar' : 'bot-avatar'}">
+                            ${sender === 'user' ? '👤' : '🤖'}
+                        </div>
+                        <div class="message-content">${this.formatMessage(content)}</div>
+                    </div>
+                `;
+                
+                this.messagesContainer.appendChild(messageDiv);
+                this.scrollToBottom();
+                
+                // Remover welcome si existe
+                const welcome = this.messagesContainer.querySelector('.welcome');
+                if (welcome) {
+                    welcome.remove();
+                }
+            }
+
+            formatMessage(text) {
+                return text
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+                    .replace(/`([^`]+)`/g, '<code>$1</code>');
+            }
+
+            showTyping() {
+                this.typingElement = document.createElement('div');
+                this.typingElement.className = 'message bot typing';
+                this.typingElement.innerHTML = `
+                    <div class="message-wrapper">
+                        <div class="avatar bot-avatar">🤖</div>
+                        <div class="typing-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                `;
+                this.messagesContainer.appendChild(this.typingElement);
+                this.scrollToBottom();
+            }
+
+            hideTyping() {
+                if (this.typingElement) {
+                    this.typingElement.remove();
+                    this.typingElement = null;
+                }
+            }
+
+            scrollToBottom() {
+                this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
             }
 
             generateUniqueResponse(message) {
                 const msg = message.toLowerCase().trim();
-                const words = message.split(' ').filter(w => w.length > 2);
-                const lastWords = this.conversationHistory.slice(-3).map(c => c.content.toLowerCase());
-                
-                // Evitar repeticiones
+                const words = message.toLowerCase().split(/\s+/).filter(w => w.length > 2);
+                const recentResponses = this.conversationHistory
+                    .filter(c => c.role === 'assistant')
+                    .slice(-5)
+                    .map(c => c.content.toLowerCase());
+
+                // ✅ ANTI-REPETICIÓN: Generar respuesta única
                 let attempts = 0;
                 let response;
                 
                 do {
-                    response = this.createResponse(msg, words, lastWords);
-                    attempts++;
-                } while (this.hasRepeatedPhrases(response, lastWords) && attempts < 5);
-
-                return response;
-            }
-
-            createResponse(msg, words, lastWords) {
-                // Categorías específicas con respuestas únicas
-                if (/matematic|sum|rest|multiplic|divid|ecuaci|porcent|raiz/i.test(msg)) {
-                    return this.mathResponse(words);
-                }
-                if (/program|codigo|javascript|html|css|python|java|desarroll|web|app/i.test(msg)) {
-                    return this.codeResponse(words);
-                }
-                if (/histori|fecha|siglo|guerr|año|president|rey/i.test(msg)) {
-                    return this.historyResponse(words);
-                }
-                if (/cienci|fisic|quimic|biologi|astronomi|planet|univers/i.test(msg)) {
-                    return this.scienceResponse(words);
-                }
-                if (/tecnolog|inteligen|machine learning|ia|chatgpt|gpt/i.test(msg)) {
-                    return this.techResponse(words);
-                }
-                if (/recet|comid|cocin|ingredien/i.test(msg)) {
-                    return this.recipeResponse(words);
-                }
-                if (/viaj|destin|ciudad|pais|turism/i.test(msg)) {
-                    return this.travelResponse(words);
-                }
-                if (/deport|futbol|tenis|baloncesto|atleti/i.test(msg)) {
-                    return this.sportsResponse(words);
-                }
-                
-                // Respuesta general ultra variada
-                const generalResponses = [
-                    `Analizando tu consulta "${words[0] || 'tema'}"... Te explico con detalle:`,
-                    `Interesante pregunta sobre ${words.slice(0,2).join(' ')}. Aquí va la información clave:`,
-                    `Perfecto. Sobre "${message.substring(0,30)}..." puedo decirte que:`,
-                    `Excelente tema. Te doy los puntos más importantes sobre ${words[0]}:`,
-                    `Tu pregunta sobre ${words[0]} es muy pertinente. La respuesta es:`
-                ];
-                
-                const details = this.generateDetails(words[0] || 'general');
-                return `${generalResponses[Math.floor(Math.random() * generalResponses.length)]}\n\n${details}`;
-            }
-
-            mathResponse(words) {
-                const mathTemplates = [
-                    `Para ${words.join(' ')}:\n\n1️⃣ **Fórmula**: [explicación específica]\n2️⃣ **Ejemplo**: 15 × 3 = 45\n3️⃣ **Resultado**: [cálculo preciso]\n\n¿Quieres más ejemplos prácticos?`,
-                    `Solución paso a paso para ${words[0]}:\n\n📊 **Paso 1**: Identificar variables\n📊 **Paso 2**: Aplicar fórmula\n📊 **Resultado**: [número]\n\n¡Matemáticas resueltas! 🔢`,
-                    `${words[0].toUpperCase()}: La respuesta
+                    response = this.create
