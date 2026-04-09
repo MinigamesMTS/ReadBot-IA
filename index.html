@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¿Quién descubrió América?</title>
+    <title>Página Completa Moderna</title>
     <style>
         * {
             margin: 0;
@@ -12,183 +12,408 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Arial', sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: #f8f9fa;
+            overflow-x: hidden;
         }
 
-        .container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            padding: 40px;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            color: #1a73e8;
-            font-size: 2.2em;
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .highlight {
-            background: linear-gradient(120deg, #1a73e8, #34a853);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 800;
-        }
-
-        h3 {
-            color: #202124;
-            font-size: 1.4em;
-            margin: 30px 0 15px 0;
-            font-weight: 600;
-        }
-
-        p {
-            font-size: 1.1em;
-            margin-bottom: 20px;
-            color: #5f6368;
-        }
-
-        table {
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
             width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
+            top: 0;
+            z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        th, td {
-            padding: 18px 15px;
-            text-align: left;
-            border-bottom: 1px solid #e8eaed;
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
-        th {
-            background: linear-gradient(135deg, #1a73e8, #4285f4);
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
             color: white;
-            font-weight: 600;
-            font-size: 1em;
+            text-decoration: none;
+            transition: opacity 0.3s;
         }
 
-        tr:hover {
-            background: #f8f9ff;
-            transform: scale(1.01);
-            transition: all 0.2s ease;
+        .nav-links a:hover {
+            opacity: 0.8;
         }
 
-        tr:last-child td {
-            border-bottom: none;
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
         }
 
-        .evidence {
-            background: #e8f4fd;
-            border-left: 5px solid #1a73e8;
-            padding: 20px;
-            margin: 25px 0;
-            border-radius: 8px;
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
         }
 
-        .cta {
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23667eea" width="1200" height="600"/><circle fill="%23764ba2" opacity="0.3" cx="300" cy="200" r="150"/><circle fill="%23f093fb" opacity="0.4" cx="900" cy="400" r="200"/></svg>');
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            margin-top: 40px;
-            padding: 25px;
-            background: linear-gradient(135deg, #34a853, #7cb342);
             color: white;
-            border-radius: 12px;
-            font-size: 1.1em;
+            margin-top: 70px;
         }
 
-        .cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(52, 168, 83, 0.3);
-            transition: all 0.3s ease;
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
         }
 
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255,107,107,0.4);
+        }
+
+        /* Sections */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        /* Features */
+        .features {
+            background: #f8f9fa;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* About */
+        .about {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            height: 400px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+        }
+
+        /* Contact */
+        .contact {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .contact-form button {
+            background: #ff6b6b;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .contact-form button:hover {
+            background: #ff5252;
+        }
+
+        /* Footer */
+        footer {
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            body {
-                padding: 10px;
+            .hamburger {
+                display: flex;
             }
-            
-            .container {
-                padding: 25px;
+
+            .nav-links {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: #667eea;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                padding: 2rem 0;
             }
-            
-            h1 {
-                font-size: 1.8em;
+
+            .nav-links.active {
+                left: 0;
             }
-            
-            table {
-                font-size: 0.9em;
+
+            .hero-content h1 {
+                font-size: 2.5rem;
             }
-            
-            th, td {
-                padding: 12px 8px;
+
+            .about,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 3rem 0;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>¿<span class="highlight">Quién descubrió América</span>?</h1>
-        
-        <p><strong>Cristóbal Colón (Christopher Columbus) es comúnmente creditado con el "descubrimiento" de América</strong> en 1492, cuando llegó a una isla en las actuales Bahamas el 12 de octubre, durante su primer viaje financiado por los Reyes Católicos de España. Sin embargo, esto es una simplificación histórica:</p>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">MiMarca</div>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#features">Características</a></li>
+                <li><a href="#about">Sobre Nosotros</a></li>
+                <li><a href="#contact">Contacto</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
 
-        <h3>Contexto preciso:</h3>
-        <ul>
-            <li><strong>No fue el primero</strong>: Pueblos indígenas (como los taínos, mayas, incas y otros) ya habitaban el continente por miles de años. Vikingos liderados por <strong>Leif Erikson</strong> llegaron a Norteamérica (posiblemente Terranova, Canadá) alrededor del año 1000 d.C., fundando un asentamiento breve en L'Anse aux Meadows.</li>
-            <li><strong>El mito del "descubrimiento"</strong>: El término se refiere al <strong>contacto europeo sostenido</strong> que abrió la era de la colonización, el comercio y el intercambio colombino (que trajo enfermedades, esclavitud y recursos entre el Viejo y Nuevo Mundo).</li>
-        </ul>
-
-        <h3>Evidencia clave:</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Explorador/Grupo</th>
-                    <th>Fecha aproximada</th>
-                    <th>Lugar</th>
-                    <th>Impacto</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Vikingos (Leif Erikson)</strong></td>
-                    <td>~1000 d.C.</td>
-                    <td>Norteamérica (Vinland)</td>
-                    <td>Asentamiento temporal; registros en sagas nórdicas y excavaciones arqueológicas en L'Anse aux Meadows (UNESCO).</td>
-                </tr>
-                <tr>
-                    <td><strong>Cristóbal Colón</strong></td>
-                    <td>1492</td>
-                    <td>Caribe (Bahamas, Cuba, etc.)</td>
-                    <td>4 viajes; cartas y diarios propios; impulsó la colonización española.</td>
-                </tr>
-                <tr>
-                    <td>Otros precolombinos</td>
-                    <td>Siglos previos</td>
-                    <td>Polinesios posiblemente en Sudamérica</td>
-                    <td>Teorías basadas en evidencias genéticas y botánicas (ej. camote en Nueva Zelanda).</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="evidence">
-            <strong>En resumen</strong>, Colón "descubrió" América <strong>para Europa</strong>, pero no fue el primero en pisarla. Fuentes: Crónicas de Colón, sagas islandesas y arqueología confirmada.
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Bienvenido a la Experiencia Completa</h1>
+            <p>Descubre lo mejor en diseño web moderno y responsive</p>
+            <a href="#contact" class="cta-button">Comenzar Ahora</a>
         </div>
+    </section>
 
-        <div class="cta">
-            Si buscas detalles sobre un viaje específico, ¡dime!
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Características Premium</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Alta Velocidad</h3>
+                    <p>Optimizado para cargar en menos de 2 segundos en cualquier dispositivo.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>100% Responsive</h3>
+                    <p>Perfecto en móviles, tablets y escritorio. Se adapta a cualquier pantalla.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Diseño Moderno</h3>
+                    <p>Gradientes, animaciones y efectos visuales de última generación.</p>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div>
+                <h2>Sobre Nosotros</h2>
+                <p>Somos un equipo apasionado por crear experiencias digitales increíbles. Cada línea de código está diseñada con amor y precisión para ofrecerte lo mejor en tecnología web.</p>
+                <br>
+                <p>Nuestra misión es transformar ideas en realidades digitales que impacten y generen resultados.</p>
+            </div>
+            <div class="about-image">
+                💻
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Contáctanos</h2>
+            <div class="contact-grid">
+                <div>
+                    <h3>📧 Envíanos un mensaje</h3>
+                    <p>Estamos listos para ayudarte con tu próximo proyecto.</p>
+                </div>
+                <form class="contact-form">
+                    <input type="text" placeholder="Tu nombre" required>
+                    <input type="email" placeholder="Tu email" required>
+                    <textarea rows="5" placeholder="Tu mensaje" required></textarea>
+                    <button type="submit">Enviar Mensaje</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 MiMarca. Todos los derechos reservados. | Diseñado con ❤️</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('¡Mensaje enviado correctamente! Te contactaremos pronto.');
+            this.reset();
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(102, 126, 234, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                header.style.backdropFilter = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
