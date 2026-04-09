@@ -3,370 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blackbox AI Clone</title>
+    <title>¿Quién descubrió América?</title>
     <style>
-        /* Variables de color */
-        :root {
-            --bg-color: #0f1115;
-            --sidebar-bg: #0b0c0f;
-            --text-main: #ffffff;
-            --text-muted: #8b8d93;
-            --border-color: #2a2d35;
-            --accent-hover: #1e2026;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* Barra Lateral (Sidebar) */
-        .sidebar {
-            width: 60px;
-            background-color: var(--sidebar-bg);
-            border-right: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 20px;
-            gap: 25px;
-            color: var(--text-muted);
-        }
-
-        .sidebar div {
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        .sidebar div:hover {
-            color: var(--text-main);
-        }
-
-        /* Contenido Principal */
-        .main-content {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-
-        /* Navegación Superior */
-        .top-nav {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding: 20px 40px;
-            gap: 25px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .top-nav a {
-            color: var(--text-main);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .top-nav a:hover {
-            color: var(--text-muted);
-        }
-
-        .btn-get-started {
-            background-color: transparent;
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-
-        .btn-get-started:hover {
-            background-color: var(--accent-hover);
-        }
-
-        /* Área Central (Chat/Búsqueda) */
-        .center-area {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding-bottom: 100px;
-            width: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
             max-width: 800px;
             margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
         }
 
-        /* Contenedor de mensajes (Oculto inicialmente) */
-        #chat-history {
-            width: 100%;
-            max-height: 50vh;
-            overflow-y: auto;
-            margin-bottom: 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            padding: 0 20px;
-        }
-
-        .message {
-            padding: 15px;
-            border-radius: 10px;
-            max-width: 80%;
-            line-height: 1.5;
-        }
-
-        .user-message {
-            background-color: var(--accent-hover);
-            align-self: flex-end;
-            border: 1px solid var(--border-color);
-        }
-
-        .ai-message {
-            background-color: transparent;
-            align-self: flex-start;
-            color: #d1d5db;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--text-muted);
-            margin-bottom: 30px;
-            letter-spacing: 1px;
-        }
-
-        /* Input Box */
-        .input-container {
-            width: 100%;
-            background-color: var(--sidebar-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            padding: 10px 20px;
-            gap: 15px;
-        }
-
-        .input-container input {
-            flex-grow: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-main);
-            font-size: 16px;
-            outline: none;
-        }
-
-        .input-container input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .model-selector {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 14px;
-            cursor: pointer;
-            outline: none;
-        }
-
-        .icon-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        /* Botones de acción rápida */
-        .quick-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .action-chip {
-            background-color: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .action-chip:hover {
-            background-color: var(--accent-hover);
-            color: var(--text-main);
-        }
-
-        /* Banner Inferior */
-        .bottom-banner-container {
-            position: absolute;
-            bottom: 30px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .bottom-banner {
-            background-color: transparent;
-            border: 1px solid var(--border-color);
-            padding: 12px 20px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 13px;
-            margin-bottom: 10px;
-        }
-
-        .badge-new {
-            background-color: var(--accent-hover);
-            padding: 4px 8px;
+        .container {
+            background: white;
             border-radius: 12px;
-            font-weight: bold;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin-bottom: 20px;
         }
 
-        .btn-explore {
-            background-color: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 6px 16px;
-            border-radius: 15px;
-            cursor: pointer;
+        h1 {
+            color: #1a73e8;
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: center;
         }
 
-        .footer-text {
-            color: var(--text-muted);
-            font-size: 11px;
+        .highlight {
+            background: linear-gradient(120deg, #1a73e8, #34a853);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+        }
+
+        h3 {
+            color: #202124;
+            font-size: 1.4em;
+            margin: 30px 0 15px 0;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: #5f6368;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 18px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e8eaed;
+        }
+
+        th {
+            background: linear-gradient(135deg, #1a73e8, #4285f4);
+            color: white;
+            font-weight: 600;
+            font-size: 1em;
+        }
+
+        tr:hover {
+            background: #f8f9ff;
+            transform: scale(1.01);
+            transition: all 0.2s ease;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .evidence {
+            background: #e8f4fd;
+            border-left: 5px solid #1a73e8;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+        }
+
+        .cta {
+            text-align: center;
+            margin-top: 40px;
+            padding: 25px;
+            background: linear-gradient(135deg, #34a853, #7cb342);
+            color: white;
+            border-radius: 12px;
+            font-size: 1.1em;
+        }
+
+        .cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 168, 83, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            table {
+                font-size: 0.9em;
+            }
+            
+            th, td {
+                padding: 12px 8px;
+            }
         }
     </style>
 </head>
 <body>
-
-    <div class="sidebar">
-        <div>⬡</div>
-        <div>+</div>
-        <div>↺</div>
-        <div>☁</div>
-        <div>﹀</div>
-        <div>⚙</div>
-    </div>
-
-    <div class="main-content">
+    <div class="container">
+        <h1>¿<span class="highlight">Quién descubrió América</span>?</h1>
         
-        <nav class="top-nav">
-            <a href="#">About</a>
-            <a href="#">Pricing</a>
-            <a href="#">Features</a>
-            <a href="#">API</a>
-            <a href="#">Releases</a>
-            <a href="#">VSCode</a>
-            <a href="#">Sign In</a>
-            <button class="btn-get-started">Get Started for Free</button>
-        </nav>
+        <p><strong>Cristóbal Colón (Christopher Columbus) es comúnmente creditado con el "descubrimiento" de América</strong> en 1492, cuando llegó a una isla en las actuales Bahamas el 12 de octubre, durante su primer viaje financiado por los Reyes Católicos de España. Sin embargo, esto es una simplificación histórica:</p>
 
-        <div class="center-area">
-            
-            <div id="chat-history">
-                </div>
+        <h3>Contexto preciso:</h3>
+        <ul>
+            <li><strong>No fue el primero</strong>: Pueblos indígenas (como los taínos, mayas, incas y otros) ya habitaban el continente por miles de años. Vikingos liderados por <strong>Leif Erikson</strong> llegaron a Norteamérica (posiblemente Terranova, Canadá) alrededor del año 1000 d.C., fundando un asentamiento breve en L'Anse aux Meadows.</li>
+            <li><strong>El mito del "descubrimiento"</strong>: El término se refiere al <strong>contacto europeo sostenido</strong> que abrió la era de la colonización, el comercio y el intercambio colombino (que trajo enfermedades, esclavitud y recursos entre el Viejo y Nuevo Mundo).</li>
+        </ul>
 
-            <div class="logo-container" id="main-logo">
-                <span>⬡</span>
-                <span>BLACKBOX AI</span>
-            </div>
+        <h3>Evidencia clave:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Explorador/Grupo</th>
+                    <th>Fecha aproximada</th>
+                    <th>Lugar</th>
+                    <th>Impacto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Vikingos (Leif Erikson)</strong></td>
+                    <td>~1000 d.C.</td>
+                    <td>Norteamérica (Vinland)</td>
+                    <td>Asentamiento temporal; registros en sagas nórdicas y excavaciones arqueológicas en L'Anse aux Meadows (UNESCO).</td>
+                </tr>
+                <tr>
+                    <td><strong>Cristóbal Colón</strong></td>
+                    <td>1492</td>
+                    <td>Caribe (Bahamas, Cuba, etc.)</td>
+                    <td>4 viajes; cartas y diarios propios; impulsó la colonización española.</td>
+                </tr>
+                <tr>
+                    <td>Otros precolombinos</td>
+                    <td>Siglos previos</td>
+                    <td>Polinesios posiblemente en Sudamérica</td>
+                    <td>Teorías basadas en evidencias genéticas y botánicas (ej. camote en Nueva Zelanda).</td>
+                </tr>
+            </tbody>
+        </table>
 
-            <div class="input-container">
-                <button class="icon-btn">📎</button>
-                <input type="text" id="user-input" placeholder="Message Blackbox" autocomplete="off">
-                <select class="model-selector">
-                    <option>Select Models ﹀</option>
-                </select>
-                <button class="icon-btn">🎤</button>
-            </div>
-
-            <div class="quick-actions" id="quick-actions">
-                <button class="action-chip">☁ Agent</button>
-                <button class="action-chip">❯_ CLI</button>
-                <button class="action-chip">⚡ VSCode</button>
-                <button class="action-chip">🖥 Desktop</button>
-                <button class="action-chip">&lt;/&gt; API</button>
-                <button class="action-chip">&lt;/&gt; IDE</button>
-            </div>
+        <div class="evidence">
+            <strong>En resumen</strong>, Colón "descubrió" América <strong>para Europa</strong>, pero no fue el primero en pisarla. Fuentes: Crónicas de Colón, sagas islandesas y arqueología confirmada.
         </div>
 
-        <div class="bottom-banner-container">
-            <div class="bottom-banner">
-                <span class="badge-new">New</span>
-                <span>Crossed +30M users. Get started with BLACKBOX Agent on VSCode</span>
-                <button class="btn-explore">Explore</button>
-            </div>
-            <div class="footer-text">
-                By using Blackbox you agree to the Terms and Privacy.
-            </div>
+        <div class="cta">
+            Si buscas detalles sobre un viaje específico, ¡dime!
         </div>
-
     </div>
-
-    <script>
-        const inputField = document.getElementById('user-input');
-        const chatHistory = document.getElementById('chat-history');
-        const mainLogo = document.getElementById('main-logo');
-        const quickActions = document.getElementById('quick-actions');
-
-        // Función para agregar mensajes a la pantalla
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message');
-            messageDiv.classList.add(sender === 'user' ? 'user-message' : 'ai-message');
-            messageDiv.textContent = text;
-            chatHistory.appendChild(messageDiv);
-            
-            // Auto-scroll hacia abajo
-            chatHistory.scrollTop = chatHistory.scrollHeight;
-        }
-
-        // Escuchar cuando el usuario presiona "Enter"
-        inputField.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter' && inputField.value.trim() !== '') {
-                const userText = inputField.value.trim();
-                
-                // Ocultar logo y acciones rápidas al iniciar el chat (como en las apps reales)
-                mainLogo.style.display = 'none';
-                quickActions.style.display = 'none';
-
-                // Mostrar el mensaje del usuario
-                addMessage(userText, 'user');
-                inputField.value = ''; // Limpiar el input
-
-                // Simular un tiempo de carga y luego responder
-                setTimeout(() => {
-                    const fakeAiResponse = `He recibido tu mensaje: "${userText}". Como soy una demostración de interfaz estática (HTML/CSS/JS), esta es una respuesta simulada. Para conectarme a una IA real, necesitarías implementar un fetch() hacia una API de backend.`;
-                    addMessage(fakeAiResponse, 'ai');
-                }, 1000); // Espera 1 segundo para responder
-            }
-        });
-    </script>
 </body>
 </html>
