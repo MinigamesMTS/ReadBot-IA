@@ -1,22 +1,33 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MiAI PRO</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agar.io Clon</title>
+    <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
 
-<div class="header">MiAI PRO 🤖</div>
+    <div class="menu-container">
+        <h1 class="logo">Agar.io</h1>
+        
+        <p class="subtitle">La masa lo es todo.</p>
+        
+        <input type="text" id="nick" class="input-nick" placeholder="Apodo" maxlength="15" autofocus>
+        
+        <button class="btn-play">Jugar</button>
+        
+        <div class="secondary-buttons">
+            <button class="btn-spectate">Espectador</button>
+            <button class="btn-settings">⚙️ Ajustes</button>
+        </div>
 
-<div class="chat" id="chat"></div>
+        <div class="instructions">
+            <p>Mueve tu ratón para controlar tu célula.</p>
+            <p>Presiona <b>Espacio</b> para dividirte.</p>
+            <p>Presiona <b>W</b> para expulsar masa.</p>
+        </div>
+    </div>
 
-<div class="input-box">
-    <input id="input" placeholder="Escribe algo...">
-    <button id="btn">➤</button>
-</div>
-
-<script src="script.js"></script>
 </body>
 </html>
