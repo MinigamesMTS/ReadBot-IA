@@ -1,61 +1,123 @@
+/* Reinicio básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Ubuntu', sans-serif, Arial;
+}
+
+/* Fondo de cuadrícula icónico de Agar.io */
 body {
-    margin:0;
-    font-family: Arial;
-    background: linear-gradient(135deg,#667eea,#764ba2);
-    display:flex;
-    flex-direction:column;
-    height:100vh;
-    color:white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f2fbff;
+    /* Crear la cuadrícula */
+    background-image: 
+        linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    background-position: center center;
 }
 
-.header{
-    padding:15px;
-    text-align:center;
-    font-weight:bold;
-    background:rgba(0,0,0,0.2);
+/* Panel central */
+.menu-container {
+    background-color: #ffffff;
+    width: 380px;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    z-index: 10;
 }
 
-.chat{
-    flex:1;
-    overflow:auto;
-    padding:20px;
+/* Título y subtítulo */
+.logo {
+    font-size: 50px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 5px;
+    letter-spacing: -1px;
 }
 
-.msg{
-    margin:10px 0;
-    padding:12px 16px;
-    border-radius:15px;
-    max-width:75%;
+.subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
 }
 
-.user{
-    background:white;
-    color:black;
-    margin-left:auto;
+/* Input del apodo */
+.input-nick {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    margin-bottom: 15px;
+    outline: none;
+    transition: border 0.3s;
 }
 
-.ai{
-    background:rgba(255,255,255,0.2);
+.input-nick:focus {
+    border-color: #5cb85c;
+    box-shadow: 0 0 5px rgba(92, 184, 92, 0.5);
 }
 
-.input-box{
-    display:flex;
-    padding:10px;
+/* Botón principal de Jugar */
+.btn-play {
+    width: 100%;
+    padding: 15px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-bottom: 15px;
 }
 
-input{
-    flex:1;
-    padding:12px;
-    border:none;
-    border-radius:20px;
+.btn-play:hover {
+    background-color: #4cae4c;
 }
 
-button{
-    margin-left:10px;
-    padding:10px 20px;
-    border:none;
-    border-radius:20px;
-    background:black;
-    color:white;
-    cursor:pointer;
+/* Botones secundarios */
+.secondary-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.btn-spectate, .btn-settings {
+    flex: 1;
+    padding: 10px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-spectate:hover, .btn-settings:hover {
+    background-color: #e0e0e0;
+}
+
+/* Instrucciones del juego */
+.instructions {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    font-size: 14px;
+    color: #777;
+    line-height: 1.6;
+}
+
+.instructions b {
+    color: #333;
 }
